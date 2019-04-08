@@ -1,0 +1,35 @@
+<mat-card role="region" class="mat-elevation-z8">
+  <mat-card-header>
+    <mat-card-title>{{process.name}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+
+    <mat-form-field class="autosize" appearance="standard">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" maxlength="10" name="name" [(ngModel)]="process.name">
+    </mat-form-field>
+
+    <div fxLayout="row wrap" fxLayoutAlign="center center">
+      <mat-form-field appearance="standard">
+        <mat-label>Threads number</mat-label>
+        <input matInput type="number" name="nbThreads" [(ngModel)]="process.nbThreads" min="1">
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Priority</mat-label>
+        <input matInput placeholder="name" type="number" name="priority" [(ngModel)]="process.priority" min="0">
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>I/O</mat-label>
+        <input matInput placeholder="name" type="number" name="io" [(ngModel)]="process.io" min="0">
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Compute</mat-label>
+        <input matInput placeholder="name" type="number" name="compute" [(ngModel)]="process.compute" min="0">
+      </mat-form-field>
+
+    </div>
+  </mat-card-content>
+</mat-card>

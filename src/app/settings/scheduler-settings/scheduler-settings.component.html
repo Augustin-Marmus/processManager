@@ -1,0 +1,25 @@
+<mat-card class="mat-elevation-z8">
+  <mat-card-header>
+    <mat-card-title>Scheduler settings</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <br />
+    <div fxLayout="row wrap">
+
+      <mat-radio-group name="schedulerSelector" (change)="selected = $event.value">
+        <mat-label class="radio-label">Strategy</mat-label>
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <mat-radio-button *ngFor="let scheduler of schedulerService.SCHEDULERS" [checked]="scheduler.name === 'PCA Scheduler'" [value]="scheduler.name"
+            ngDefaultControl>
+            {{scheduler.name}}
+          </mat-radio-button>
+          <!-- <mat-radio-button value="value2" [(ngModel)]="selected">PCAScheduler</mat-radio-button> -->
+        </div>
+      </mat-radio-group>
+      <mat-form-field appearance="standard">
+        <mat-label>Cores number</mat-label>
+        <input matInput type="number" name="nbCores" [(ngModel)]="schedulerService.nbCores" min="1">
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+</mat-card>

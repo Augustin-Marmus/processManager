@@ -1,0 +1,61 @@
+<mat-toolbar #header color="primary">
+  <mat-toolbar-row>
+    <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+      *ngIf="(isHandset$ | async) || !drawer.opened">
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    <span class="title-center">Processes Manager</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="false"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)">
+    <mat-toolbar class="mat-elevation-z8">Actions</mat-toolbar>
+    <mat-toolbar fxLayout="row" fxLayoutAlign="space-around center">
+      <button mat-mini-fab matTooltip="Run" (click)="start()">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button mat-mini-fab matTooltip="Pause" (click)="pause()">
+        <mat-icon>pause</mat-icon>
+      </button>
+      <button mat-mini-fab matTooltip="Next step" (click)="step()">
+        <mat-icon>skip_next</mat-icon>
+      </button>
+      <button mat-mini-fab matTooltip="Reset" (click)="reset()">
+        <mat-icon>replay</mat-icon>
+      </button>
+    </mat-toolbar>
+    <mat-toolbar class="mat-elevation-z8">Views</mat-toolbar>
+    <mat-nav-list>
+      <mat-list-item routerLink="/settings" routerLinkActive="active">Settings</mat-list-item>
+      <mat-list-item routerLink="/tree" routerLinkActive="active">Tree</mat-list-item>
+      <mat-list-item routerLink="/table" routerLinkActive="active">Table</mat-list-item>
+    </mat-nav-list>
+    <mat-toolbar class="mat-elevation-z8" fxLayoutAlign="space-between center">
+      <p>Processes</p>
+      <button mat-icon-button (click)="createNewProcess()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-toolbar>
+    <mat-nav-list>
+      <mat-list-item *ngFor="let process of processes" dense [class.active]="rla.isActive">
+        <div class="autosize" fxLayout="row" fxLayoutAlign="space-between center">
+          <a [routerLink]="[ '/process', process.id ]" routerLinkActive #rla="routerLinkActive">{{ process.name }}</a>
+          <button mat-icon-button (click)="deleteProcess(process.id)">
+            <mat-icon>remove</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-nav-list>
+    <mat-toolbar class="mat-elevation-z8">Others</mat-toolbar>
+    <mat-nav-list>
+      <mat-list-item routerLink="/report" routerLinkActive="active">Report</mat-list-item>
+      <mat-list-item href="#">Github</mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
