@@ -1,0 +1,9 @@
+version: '3.6'
+
+services:
+
+  process-manager:
+    build: .
+    image: process-manager:latest
+    ports:
+      - 8000:80
