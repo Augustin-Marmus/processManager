@@ -1,27 +1,109 @@
 # ProcessManager
+#### Augustin MARMUS | Clément DOUMERGUE
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.1.
+Ce programme est une simple simulation de l'ordonnacement des processus et de l'allocation de la mémoire au sein du Système d'Exploitation.
+Cette simulation se présente sous la form d'une interface WEB. Elle est faite en Angular 7.
 
-## Development server
+## Compilation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Ce dépot fournit un dockerfile permettant de compiler simplement: 
 
-## Code scaffolding
+```bash
+docker build --rm . -t process-manager:latest
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Lancer la simulation:
 
-## Build
+```bash
+docker run --rm -i -t -p 8000:80 process-manager:latest
+```
+Vous pourrez trouver la simulation à l'adresse http://localhost:8000
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Ou plus simplement avec docker-compose:
+```bash
+docker-compose up
+```
 
-## Running unit tests
+## Manuel d'utilisation
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Vous pouvez parametrer plusieur facteurs dans l'onglet settings (nombres de coeurs, l'algorithme d'ordonnancement, la taille de la mémoire, l'algorithme de d'allocation).
 
-## Running end-to-end tests
+Vous pouvez ajouter/supprimer/éditer des process dans le menu.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Le player en haut du menu permet de lancer la simulation (Jouer, Pause, Pas à pas, Reset).
 
-## Further help
+## Implémentation
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Structure de données
+
+Les Process sont la principale structure de données, ils sont composés de Threads et de Pages.
+
+> Process
+```typescript
+class Process {
+
+  private static nextId: number = 0;
+
+  name: string = 'Process ' + Process.nextId;
+  id: number = ++(Process.nextId);
+  priority: number = 1;
+  computed: number = 0;
+  ioed: number = 0;
+  threads: Thread[] = new Array<Thread>(new Thread(this));
+  pages: Page[] = new Array<Page>();
+}
+```
+
+Ils contiennent les pages et les threads dont ils sont composé:
+
+> Thread
+```typescript
+class Thread {
+  private parentProcess: Process;
+  state: Thread.STATE;
+  remainingTime: number;
+  inactivityTimeStamp: number;
+}
+```
+
+> Page
+```typescript
+
+class Page {
+  private parentProcess: Process;
+  state: Page.STATE;
+  allocatedTimeStamp: number = -1;
+}
+```
+
+### Interfaces
+
+Les différents algorithme d'ordonnancement sont implémentés à l'aide d'interfaces qui fournissent des hooks ou les différents algorithme peuvent agir sur la simulation:
+
+> Scheduler
+```typescript
+interface Scheduler {
+  onTimeUnitStart(processes: Process[], nbCores: number, tick: number): void;
+  onTimeUnitEnd(processes: Process[], nbCores: number, tick: number): void;
+
+  name: string;
+  description: string;
+}
+```
+
+> Allocator
+```typescript
+interface Allocator {
+  onTimeUnitStart(processes: Process[], memory: Page[], tick: number): void;
+  onTimeUnitEnd(processes: Process[], memory: Page[], tick: number): void;
+
+  name: string;
+  description: string;
+}
+```
+
+## Décisions d'implémentation
+
+L'ordonnancement est préemptif: les processus en attente d'I/O ne bloque pas les coeurs.
+La décision de choix entre opération d'I/O et de calcul est aléatiore lorsque le process contient les deux.
+L'algorithme par priorité contient un système anti-famine: plus le process à été inactif plus sa priorité augmente.
