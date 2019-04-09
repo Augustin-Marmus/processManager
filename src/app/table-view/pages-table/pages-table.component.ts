@@ -22,5 +22,4 @@ export class PagesTableComponent implements OnInit {
   ngOnInit() {
     this.pages = this.pagesService.pages
   }
-
 }

@@ -5,6 +5,7 @@ import { SchedulerService } from './scheduler.service';
 import { ProcessesService } from './processes.service';
 import { AllocatorService } from './allocator.service';
 import { PagesService } from './pages.service';
+import { MatSnackBarConfig, MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class ManagerService {
     private processesService: ProcessesService,
     private allocatorService: AllocatorService,
     private pagesService: PagesService,
+    private snackBar: MatSnackBar
   ) {
     this.ticker = rxInterval(this.interval);
   }
@@ -44,14 +46,24 @@ export class ManagerService {
   }
 
   step() {
-    if (this.counter > 0) {
-      this.schedulerService.onTimeUnitEnd(this.counter); // TODO change incrementation
-      this.allocatorService.onTimeUnitEnd(this.counter++);
-      this.schedulerService.onTimeUnitStart(this.counter);
-      this.allocatorService.onTimeUnitStart(this.counter);
-    } else {
-      this.schedulerService.onTimeUnitStart(this.counter); // TODO change incrementation
-      this.allocatorService.onTimeUnitStart(this.counter++);
+    try {
+      if (this.counter > 0) {
+        this.schedulerService.onTimeUnitEnd(this.counter); // TODO change incrementation
+        this.allocatorService.onTimeUnitEnd(this.counter++);
+        this.schedulerService.onTimeUnitStart(this.counter);
+        this.allocatorService.onTimeUnitStart(this.counter);
+      } else {
+        this.schedulerService.onTimeUnitStart(this.counter); // TODO change incrementation
+        this.allocatorService.onTimeUnitStart(this.counter++);
+      }
+    } catch (error) {
+      this.pause();
+      this.reset();
+      let config = new MatSnackBarConfig();
+      config.verticalPosition = 'top';
+      config.horizontalPosition = 'center';
+      config.duration = 5000;
+      this.snackBar.open(error.message, 'OK', config);
     }
   }
 

@@ -50,6 +50,10 @@ export class Process {
 
   get nbPages(): number { return this.pages.length; };
 
+  get inactivityTimeStamp(): number {
+    return _.minBy(this.threads, 'activityTimeStamp').inactivityTimeStamp;
+  }
+
   private createPages() {
     if (this.instruction < 0) {
       throw new Error("Process : number of instructions can't be negative")
@@ -66,8 +70,13 @@ export class Process {
   }
 
   isRunning(): boolean {
-    return !!_.find(this.threads, { state: Thread.STATE.Running })
+    return !!_.find(this.threads, { state: Thread.STATE.Running });
   }
+
+  isDone(): boolean {
+    return _.every(this.threads, { state: Thread.STATE.Done });
+  }
+
   done() {
     _(this.threads)
       .filter({ state: Thread.STATE.Ready })

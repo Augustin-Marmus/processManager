@@ -24,7 +24,8 @@ export class NavBarComponent implements OnInit {
   constructor(private breakpointObserver: BreakpointObserver,
     private processesService: ProcessesService,
     private managerService: ManagerService,
-    private router: Router) { }
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
     this.getProcesses();

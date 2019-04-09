@@ -1,11 +1,17 @@
 <mat-card role="region" class="mat-elevation-z8 table-container">
   <mat-card-header>
-    <mat-card-title>Simulation</mat-card-title>
+    <mat-card-title>Memory</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div fxLayout="row wrap" fxLayoutAlign="space-around space-around">
+    <div fxLayout="row wrap">
       <ng-container *ngFor="let page of pages">
-        <p>{{page.processOwner ? page.processOwner.name : page.state}}</p>
+        <div class="badge fixed-size">
+          <span [ngClass]="{'running': page.processOwner && page.processOwner.isRunning(),
+                            'ready'  : page.processOwner && !page.processOwner.isRunning(),
+                            'done'   : !(page.processOwner && page.processOwner.isRunning())}">
+            {{page.processOwner ? page.processOwner.id : "X"}}
+          </span>
+        </div>
       </ng-container>
     </div>
   </mat-card-content>

@@ -10,7 +10,9 @@ class Page {
     this.state = Page.STATE.None;
   }
 
-  get processOwner() { return this.parentProcess };
+  get processOwner(): Process { return this.parentProcess };
+
+  get inactivityTimestamp(): number { return (this.parentProcess) ? this.parentProcess.inactivityTimeStamp : -1 }
 }
 
 module Page {
