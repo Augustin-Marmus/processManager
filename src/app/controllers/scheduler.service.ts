@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Scheduler } from './Scheduler';
-import { PCAScheduler } from './schedulers/PCAScheduler';
-import { PPScheduler } from './schedulers/PPScheduler';
+import { Scheduler, PCAScheduler, PPScheduler } from './schedulers/Scheduler';
 import { ProcessesService } from './processes.service';
 
 @Injectable({
@@ -29,10 +27,6 @@ export class SchedulerService {
 
   onTimeUnitEnd(tickNumber: number) {
     this.scheduler.onTimeUnitEnd(this.processesService.getProcesses(), this.nbCores, tickNumber);
-  }
-
-  reset() {
-    this.processesService.reset();
   }
 
 }

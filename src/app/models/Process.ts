@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import Thread from './Thread';
+import Page from './Page';
 
 
 export class Process {
@@ -9,11 +10,13 @@ export class Process {
   name: string = 'Process ' + Process.nextId;
   id: number = ++(Process.nextId);
   priority: number = 1;
-  compute: number = 0;
   computed: number = 0;
-  io: number = 0;
   ioed: number = 0;
   threads: Thread[] = new Array<Thread>(new Thread(this));
+  pages: Page[] = new Array<Page>();
+
+  private _compute: number = 0;
+  private _io: number = 0;
 
   get remainingIo(): number { return this.io - this.ioed; };
   get remainingCompute(): number { return this.compute - this.computed; };
@@ -25,13 +28,36 @@ export class Process {
       throw new Error("Process : number of threads can't be negative")
     }
     else if (nb < this.nbThreads) {
-      for (let i = 0; i < this.nbThreads - nb; i++) {
-        this.threads.pop();
-      }
+      _.times(this.nbThreads - nb, () => this.threads.pop());
     } else if (nb > this.nbThreads) {
-      for (let i = 0; i < nb - this.nbThreads; i++) {
-        this.threads.push(new Thread(this));
-      }
+      _.times(nb - this.nbThreads, () => this.threads.push(new Thread(this)));
+    }
+  }
+
+  get io() { return this._io; };
+  set io(nb: number) {
+    this._io = nb;
+    this.createPages();
+  };
+
+  get compute() { return this._compute; };
+  set compute(nb: number) {
+    this._compute = nb;
+    this.createPages();
+  };
+
+  get instruction() { return this.compute + this.io; };
+
+  get nbPages(): number { return this.pages.length; };
+
+  private createPages() {
+    if (this.instruction < 0) {
+      throw new Error("Process : number of instructions can't be negative")
+    }
+    else if (this.instruction < this.nbPages) {
+      _.times(this.nbPages - this.instruction, () => this.pages.pop());
+    } else if (this.instruction > this.nbPages) {
+      _.times(this.instruction - this.nbPages, () => this.pages.push(new Page(this)));
     }
   }
 
@@ -39,6 +65,9 @@ export class Process {
     _.merge(this, _.pick(config, ['name', 'priority', 'compute', 'io', 'nbThreads']));
   }
 
+  isRunning(): boolean {
+    return !!_.find(this.threads, { state: Thread.STATE.Running })
+  }
   done() {
     _(this.threads)
       .filter({ state: Thread.STATE.Ready })

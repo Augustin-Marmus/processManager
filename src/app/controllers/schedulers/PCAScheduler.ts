@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { Scheduler } from '../Scheduler';
+import { Scheduler } from './Scheduler';
 import { Process } from 'src/app/models/Process';
 import Thread from 'src/app/models/Thread';
 
@@ -7,7 +7,6 @@ export class PCAScheduler implements Scheduler {
 
 
   onTimeUnitStart(processes: Process[], nbCores: number, tick: number): void {
-    //console.log(`PCA Scheduler start: ${tick}`);
 
     function runInstruction(thread: Thread) {
 
@@ -60,7 +59,6 @@ export class PCAScheduler implements Scheduler {
   }
 
   onTimeUnitEnd(processes: Process[], nbCores: number, tick: number): void {
-    //console.log(`PCA Scheduler end: ${tick}`);
 
     const threads: Thread[] = _
       .chain(processes)

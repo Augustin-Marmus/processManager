@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { TreeViewComponent } from './tree-view.component';
+import { ProcessesTableComponent } from './processes-table.component';
 
-describe('TreeViewComponent', () => {
-  let component: TreeViewComponent;
-  let fixture: ComponentFixture<TreeViewComponent>;
+describe('TableComponent', () => {
+  let component: ProcessesTableComponent;
+  let fixture: ComponentFixture<ProcessesTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TreeViewComponent ]
+      declarations: [ProcessesTableComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TreeViewComponent);
+    fixture = TestBed.createComponent(ProcessesTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

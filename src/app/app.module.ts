@@ -12,25 +12,25 @@ import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material.module';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { TreeViewComponent } from './tree-view/tree-view.component';
 import { ProcessComponent } from './process/process.component';
 import { SettingsComponent } from './settings/settings.component';
 import { TableViewComponent } from './table-view/table-view.component';
-import { TableComponent } from './table-view/table/table.component';
+import { ProcessesTableComponent } from './table-view/processes-table/processes-table.component';
 import { ReportComponent } from './report/report.component';
 import { SchedulerSettingsComponent } from './settings/scheduler-settings/scheduler-settings.component';
 import { AllocatorSettingsComponent } from './settings/allocator-settings/allocator-settings.component';
+import { PagesTableComponent } from './table-view/pages-table/pages-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
-    TreeViewComponent,
     ProcessComponent,
     SettingsComponent,
     TableViewComponent,
     ReportComponent,
-    TableComponent,
+    ProcessesTableComponent,
+    PagesTableComponent,
     SchedulerSettingsComponent,
     AllocatorSettingsComponent,
   ],

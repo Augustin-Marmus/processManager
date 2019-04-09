@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SettingsComponent } from './settings/settings.component';
-import { TreeViewComponent } from './tree-view/tree-view.component';
 import { TableViewComponent } from './table-view/table-view.component';
 import { ProcessComponent } from './process/process.component';
 import { ReportComponent } from './report/report.component';
 
 const routes: Routes = [
   { path: 'settings', component: SettingsComponent },
-  { path: 'tree', component: TreeViewComponent },
   { path: 'table', component: TableViewComponent },
   { path: 'process/:id', component: ProcessComponent },
   { path: 'report', component: ReportComponent },

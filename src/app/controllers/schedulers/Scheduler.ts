@@ -1,4 +1,4 @@
-import { Process } from '../models/Process';
+import { Process } from '../../models/Process';
 
 export interface Scheduler {
   onTimeUnitStart(processes: Process[], nbCores: number, tick: number): void;
@@ -7,3 +7,6 @@ export interface Scheduler {
   name: string;
   description: string;
 }
+
+export { PCAScheduler } from './PCAScheduler';
+export { PPScheduler } from './PPScheduler';

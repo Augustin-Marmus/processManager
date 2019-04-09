@@ -4,13 +4,13 @@ import { Process } from '../models/Process';
 import Thread from '../models/Thread';
 
 const DEFAULT_PROCESSES = new Array<Process>(
-  new Process({ name: 'Firefox', priority: 1, compute: 10, io: 2, nbThreads: 2 }),
-  new Process({ name: 'Spotify', priority: 4, compute: 5, io: 3, nbThreads: 2 }),
-  new Process({ name: 'Cinnamon', priority: 5, compute: 10, io: 5, nbThreads: 3 }),
+  new Process({ name: 'Firefox', priority: 1, compute: 3, io: 2, nbThreads: 2 }),
+  new Process({ name: 'Spotify', priority: 4, compute: 2, io: 3, nbThreads: 2 }),
+  new Process({ name: 'Cinnamon', priority: 5, compute: 2, io: 5, nbThreads: 3 }),
   new Process({ name: 'Htop', priority: 1, compute: 1, io: 1, nbThreads: 1 }),
-  new Process({ name: 'Webstorm', priority: 1, compute: 50, io: 5, nbThreads: 4 }),
-  new Process({ name: 'Mysql', priority: 8, compute: 10, io: 5, nbThreads: 2 }),
-  new Process({ name: 'Nginx', priority: 9, compute: 10, io: 4, nbThreads: 6 }),
+  new Process({ name: 'Webstorm', priority: 1, compute: 10, io: 5, nbThreads: 4 }),
+  new Process({ name: 'Mysql', priority: 8, compute: 5, io: 5, nbThreads: 2 }),
+  new Process({ name: 'Nginx', priority: 9, compute: 7, io: 4, nbThreads: 4 }),
 );
 
 @Injectable({

@@ -1,8 +1,24 @@
-<mat-card>
+<mat-card class="mat-elevation-z8">
   <mat-card-header>
-    <mat-card-title>Allocator Settings</mat-card-title>
+    <mat-card-title>Allocator</mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <br />
+    <div fxLayout="row wrap">
 
+      <mat-radio-group name="allocatorSelector" (change)="selected = $event.value">
+        <mat-label class="radio-label">Strategy</mat-label>
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <mat-radio-button *ngFor="let allocator of allocatorService.ALLOCATORS"
+            [checked]="allocator.name === allocatorService.allocator.name" [value]="allocator.name" ngDefaultControl>
+            {{allocator.name}}
+          </mat-radio-button>
+        </div>
+      </mat-radio-group>
+      <mat-form-field appearance="standard">
+        <mat-label>Pages number</mat-label>
+        <input matInput type="number" name="nbPages" [(ngModel)]="allocatorService.nbPages" min="1">
+      </mat-form-field>
+    </div>
   </mat-card-content>
 </mat-card>

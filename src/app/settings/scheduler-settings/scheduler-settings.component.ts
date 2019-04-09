@@ -18,10 +18,6 @@ export class SchedulerSettingsComponent implements OnInit {
   ngOnInit() {
   }
 
-  setScheduler() {
-    this.schedulerService.setScheduler(this.selected);
-  }
-
   get selected(): string { return this._selected };
   set selected(value: string) {
     this.schedulerService.setScheduler(value);
