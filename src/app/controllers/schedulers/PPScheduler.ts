@@ -42,6 +42,14 @@ export class PPScheduler implements Scheduler {
       .flatten()
       .value()
 
+    // NEW -> READY
+    _(threads)
+      .filter({ state: Thread.STATE.New })
+      .forEach((thread) => {
+        thread.state = Thread.STATE.Ready;
+        thread.inactivityTimeStamp = tick;
+      })
+
     _(threads)
       .filter({ state: Thread.STATE.Ready })
       .sortBy((thread) => -thread.priority * (tick - thread.inactivityTimeStamp))
@@ -50,14 +58,6 @@ export class PPScheduler implements Scheduler {
         return nbCores > 0;
       })
       .value()
-
-    // NEW -> READY
-    _(threads)
-      .filter({ state: Thread.STATE.New })
-      .forEach((thread) => {
-        thread.state = Thread.STATE.Ready;
-        thread.inactivityTimeStamp = tick;
-      })
   }
 
   onTimeUnitEnd(processes: Process[], nbCores: number, tick: number): void {

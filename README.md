@@ -107,3 +107,4 @@ interface Allocator {
 L'ordonnancement est préemptif: les processus en attente d'I/O ne bloque pas les coeurs.
 La décision de choix entre opération d'I/O et de calcul est aléatiore lorsque le process contient les deux.
 L'algorithme par priorité contient un système anti-famine: plus le process à été inactif plus sa priorité augmente.
+La taille des page est fixée a une instruction.

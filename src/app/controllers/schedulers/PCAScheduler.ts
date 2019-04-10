@@ -43,6 +43,14 @@ export class PCAScheduler implements Scheduler {
       .flatten()
       .value()
 
+    // NEW -> READY
+    _(threads)
+      .filter({ state: Thread.STATE.New })
+      .forEach((thread) => {
+        thread.state = Thread.STATE.Ready;
+        thread.inactivityTimeStamp = tick;
+      })
+
     _(threads)
       .filter({ state: Thread.STATE.Ready })
       .sortBy(['remainingOperation'])
@@ -52,10 +60,6 @@ export class PCAScheduler implements Scheduler {
       })
       .value()
 
-    // NEW -> READY
-    _(threads)
-      .filter({ state: Thread.STATE.New })
-      .forEach((thread) => { thread.state = Thread.STATE.Ready })
   }
 
   onTimeUnitEnd(processes: Process[], nbCores: number, tick: number): void {
