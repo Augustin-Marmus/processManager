@@ -73,6 +73,10 @@ export class PPScheduler implements Scheduler {
       .forEach((thread) => thread.remainingTime--)
 
     _(threads)
+      .filter({ state: Thread.STATE.Ready })
+      .forEach((thread) => thread.waitingTime++);
+
+    _(threads)
       .filter((thread) => (thread.state === Thread.STATE.Running
         || thread.state === Thread.STATE.Blocked)
         && thread.remainingTime === 0)

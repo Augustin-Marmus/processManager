@@ -58,7 +58,6 @@ export class ManagerService {
       }
     } catch (error) {
       this.pause();
-      this.reset();
       let config = new MatSnackBarConfig();
       config.verticalPosition = 'top';
       config.horizontalPosition = 'center';

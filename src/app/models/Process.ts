@@ -51,8 +51,10 @@ export class Process {
   get nbPages(): number { return this.pages.length; };
 
   get inactivityTimeStamp(): number {
-    return _.minBy(this.threads, 'activityTimeStamp').inactivityTimeStamp;
+    return _.maxBy(this.threads, 'inactivityTimeStamp').inactivityTimeStamp;
   }
+
+  get waitingTime() { return _.sumBy(this.threads, 'waitingTime'); };
 
   private createPages() {
     if (this.instruction < 0) {

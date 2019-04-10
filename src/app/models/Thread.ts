@@ -6,11 +6,13 @@ class Thread {
   state: Thread.STATE;
   remainingTime: number;
   inactivityTimeStamp: number;
+  waitingTime: number;
 
   constructor(process: Process) {
     this.parentProcess = process;
     this.state = Thread.STATE.New;
     this.remainingTime = 0;
+    this.waitingTime = 0;
   }
 
   get priority(): number { return this.parentProcess.priority; };

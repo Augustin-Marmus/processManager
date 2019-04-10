@@ -48,6 +48,8 @@ export class ProcessesService {
       process.computed = 0;
       _.forEach(process.threads, (thread: Thread) => {
         thread.state = Thread.STATE.New;
+        thread.waitingTime = 0;
+        thread.inactivityTimeStamp = 0;
       });
     });
   }

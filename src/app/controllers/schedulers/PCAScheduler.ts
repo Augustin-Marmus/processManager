@@ -71,11 +71,16 @@ export class PCAScheduler implements Scheduler {
       .forEach((thread) => thread.remainingTime--)
 
     _(threads)
+      .filter({ state: Thread.STATE.Ready })
+      .forEach((thread) => thread.waitingTime++);
+
+    _(threads)
       .filter((thread) => (thread.state === Thread.STATE.Running
         || thread.state === Thread.STATE.Blocked)
         && thread.remainingTime === 0)
       .map((thread) => {
         thread.state = Thread.STATE.Ready;
+        thread.inactivityTimeStamp = tick;
         return thread;
       })
       .filter({ remainingOperation: 0 })
